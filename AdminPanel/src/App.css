@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@import 'daisyui/daisyui.css';
+
+.bluegradient{
+    background: #F7F9FB;
+background: radial-gradient(circle,rgba(247, 249, 251, 1) 54%, rgba(219, 227, 253, 1) 100%);
+}
+
