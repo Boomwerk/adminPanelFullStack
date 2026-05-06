@@ -6,6 +6,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use App\DTO\UserInput;
 use App\Repository\UserRepository;
 use App\State\UserProcessor;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
-    processor: UserProcessor::class
+    processor: UserProcessor::class,
+    input: UserInput::class
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {

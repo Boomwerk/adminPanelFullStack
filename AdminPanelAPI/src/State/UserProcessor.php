@@ -5,8 +5,10 @@ namespace App\State;
 use ApiPlatform\Doctrine\Common\State\PersistProcessor;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
+use App\DTO\UserInput;
 use App\Entity\User;
 use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserProcessor implements ProcessorInterface
@@ -14,7 +16,8 @@ class UserProcessor implements ProcessorInterface
 
     public function __construct(
         private UserPasswordHasherInterface $hasher,
-        private PersistProcessor $processor
+        private PersistProcessor $processor,
+        private EntityManagerInterface $em
     ){}
 
     public function process(
@@ -24,16 +27,30 @@ class UserProcessor implements ProcessorInterface
         array $context = []
     ): mixed
     {
-        if($data instanceof User && $data->getPassword())
-        {
-            $date = new DateTimeImmutable();
-            $data->setCreatedAt($date);
-            $data->setUptadedAt($date);
-            $data->setPassword(
-                $this->hasher->hashPassword($data, $data->getPassword())
-            );
-        }
 
-        return $this->processor->process($data,$operation,$uriVariables, $context);
+        
+        if($data instanceof UserInput && $data->password)
+        {   
+
+            $user = new User();
+            $date = new DateTimeImmutable();
+            $user->setEmail($data->email);
+            $user->setCreatedAt($date);
+            $user->setUptadedAt($date);
+            $user->setPassword(
+                $this->hasher->hashPassword($user, $data->password)
+            );
+
+            $this->em->persist($user);
+            $this->em->flush();
+
+            return $this->processor->process($user,$operation,$uriVariables, $context);
+
+
+        }
+            
+            return $this->processor->process($data,$operation,$uriVariables, $context);
+
+
     }
 }

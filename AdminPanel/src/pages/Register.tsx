@@ -1,12 +1,18 @@
-import { useState, type ChangeEvent } from 'react';
+import { useState} from 'react';
 import logoprotect from '../assets/logoprotect.png'
 import type { RegisterFormData } from '../types/auth';
+import RegisterUser from '../services/RegisterUser';
+import Alert from '../components/Alert';
 
 
 const Register = () => 
 {
 
     console.log("render rendu");
+    const [alert, setalert] = useState({
+        type:"",
+        message:""
+    });
 
     const [errors, setErrors] = useState<string|null>(null);
 
@@ -32,7 +38,7 @@ const Register = () =>
        
     }
 
-    const handleSubmit = (e:any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrors("");
         setLoading(true);
@@ -49,7 +55,22 @@ const Register = () =>
             return setErrors("Le mot de passe doit faire entre 8 et 150 caractères")
         }
 
-        // Envoi des données au backend
+        try{
+            
+           const status = await RegisterUser(form);
+            if(status === 201){
+                setLoading(false);
+
+                setalert({
+                    type:"success",
+                    message:"Inscription Réuissi !"
+                })
+            }
+
+        }catch(e){
+           
+            console.error(e);
+        }
 
         
         
@@ -91,14 +112,8 @@ const Register = () =>
                        
                         <h2 className="text-xl font-bold">Créer votre compte</h2>
                         <span className="text-sm mb-3">Rejoignez nous c'est vous simplifiez !</span>
-                        {errors && (
-                            <div role="alert" className="alert alert-error">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>{errors}</span>
-                            </div>
-                        )}
+
+                        <Alert type={alert.type} message={alert.message} />
                          
 
                         <form action="" className="flex flex-col items-center gap-5 mt-5" onSubmit={handleSubmit}>
@@ -204,9 +219,10 @@ const Register = () =>
                             <button className="btn btn-primary mt-4 w-75">
                                
                               {loading ? 'Chargement...': 'Inscription'}
+                              
                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                            </svg>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                                </svg>
                             </button>
                         </form>
                   
