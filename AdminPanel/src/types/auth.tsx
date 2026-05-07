@@ -4,8 +4,7 @@ export type RegisterFormData = {
     password : string;
 };
 
-export type RegisterErrors = {
-    name? : string;
-    email? : string;
-    password? : string;
+export type AuthFormData = {
+    email : string;
+    password : string;
 };

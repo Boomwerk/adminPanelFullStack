@@ -1,6 +1,80 @@
 import logoprotect from "../assets/logoprotect.png";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import type { AuthFormData } from "../types/auth";
+import Alert from "../components/Alert";
+import AuthUser from "../services/AuthUser";
+
+
 export default function Login(){
+        console.log("render rendu");
+
+
+    const [alert, setAlert] = useState({
+        type: '',
+        message: ''
+    })
+
+    const [form, setForm] = useState<AuthFormData>({
+        email: '',
+        password: ''
+    });
+
+    const [loading, setLoading] = useState(false);
+
+    const handleChange = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+
+        setForm((prev) => ({
+            ...form,
+            [name]:value
+        }))
+
+    }
+
+    const  handleSubmit = async (e) => {
+        
+        e.preventDefault();
+        setLoading(true);
+
+        if(!form.email.includes("@") || form.email.length <= 2 || form.email.length >= 30){
+            return setAlert({
+                type:"error",
+                message: "L'email est invalide !"
+            })
+        }
+
+        if(form.password.length < 8 || form.password.length > 100 ){
+           return setAlert({
+                type:"error",
+                message: "Le mot de passe est invalide"
+            })
+        }
+
+        try{
+
+           const responseApi = await AuthUser(form.email, form.password);
+
+            if(responseApi.token)
+            {
+                // Gestion token
+                // redirection
+                
+            }else{
+                setAlert({
+                    type:"error",
+                    message: "Identifiant ou mot de passe incorrect !"
+                })
+            }
+           
+        }catch(e){
+
+            console.error(e);
+        }
+
+
+    }
 
     return (<div className="flex flex-col items-center bluegradient py-20">
 
@@ -21,10 +95,10 @@ export default function Login(){
                             <p>Sécurité & Optimisation</p>
                         </div>
 
-                        {/* <Alert type={alert.type} message={alert.message} /> */}
+                        <Alert type={alert.type} message={alert.message} />
                          
 
-                        <form action="" className="flex flex-col items-center gap-5 mt-5">
+                        <form action="" className="flex flex-col items-center gap-5 mt-5" onSubmit={handleSubmit}>
 
                             
             
@@ -46,7 +120,7 @@ export default function Login(){
                                         </g>
                                     </svg>
                                     <input type="email" placeholder="e-mail@site.com" required 
-                                    name="email" 
+                                    name="email" onChange={handleChange} value={form.email}
                                   />
                                 </label>
                                 <div className="validator-hint hidden">Veuillez entrer une adresse email valide.</div>
@@ -86,6 +160,8 @@ export default function Login(){
                                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                         title="Dois être supérieur a 8 caractères, inclure des nombres, lettre minuscule, lettre majuscule"
                                         name="password"
+                                        value={form.password}
+                                        onChange={handleChange}
                                        
                                     />
                                 </label>
@@ -104,11 +180,11 @@ export default function Login(){
 
 
                             <button className="btn btn-primary mt-4 w-75">
-                               
-                              Connexion
-                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                              {loading ? 'Chargement... ': 'Connexion'} 
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
                                 </svg>
+
                             </button>
 
                         </form>

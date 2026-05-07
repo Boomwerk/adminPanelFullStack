@@ -14,8 +14,6 @@ const Register = () =>
         message:""
     });
 
-    const [errors, setErrors] = useState<string|null>(null);
-
     const [loading, setLoading] = useState(false);
 
     const [form, setForm] = useState<RegisterFormData>({
@@ -40,19 +38,29 @@ const Register = () =>
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        setErrors("");
         setLoading(true);
 
         if(!form.email.includes("@")){
-           return setErrors("L'adresse email est invalide");
+           return  setalert({
+                    type:"error",
+                    message:"l'email est invalide"
+                })
         }
         
         if(form.name.length < 3 || form.name.length > 50){
-           return  setErrors("Le Nom complet doit faire entre 3 et 50 caractères")
+            
+           return setalert({
+                    type:"error",
+                    message:"Le Nom complet doit faire entre 3 et 50 caractères"
+                })
         }
 
         if(form.password.length < 8 || form.password.length > 150){
-            return setErrors("Le mot de passe doit faire entre 8 et 150 caractères")
+
+            return setalert({
+                    type:"error",
+                    message:"Le mot de passe doit faire entre 8 et 150 caractères"
+                })
         }
 
         try{

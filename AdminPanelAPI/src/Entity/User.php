@@ -40,6 +40,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $uptadedAt = null;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -117,4 +119,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         
     }
+
+    
 }
