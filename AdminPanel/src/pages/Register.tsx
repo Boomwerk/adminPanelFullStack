@@ -1,9 +1,10 @@
-import { useState} from 'react';
+import React, { useState} from 'react';
 import logoprotect from '../assets/logoprotect.png'
 import type { RegisterFormData } from '../types/auth';
 import RegisterUser from '../services/RegisterUser';
 import Alert from '../components/Alert';
-
+import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const Register = () => 
 {
@@ -22,21 +23,19 @@ const Register = () =>
         password: ""
     });
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
        const name = e.target.name
        const value = e.target.value
 
         setForm((prev) => ({
-            ...form,
+            ...prev,
             [name]: value
         }))
-
-   
        
     }
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
 
@@ -86,15 +85,16 @@ const Register = () =>
     }
     
 
-    return (
-    <div className="flex flex-col items-center bluegradient py-10">
+    return (<>
+    <Navbar/>
+    <div className="flex flex-col items-center bluegradient">
 
         
         <div className="flex flex-col items-center">
             <div className='flex justify-end w-screen p-5'>
                 <svg
-                    width="90"
-                    height="100"
+                    width="70"
+                    height="80"
                     viewBox="0 0 90 100"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
@@ -233,6 +233,10 @@ const Register = () =>
                                 </svg>
                             </button>
                         </form>
+
+                        <div className='mt-5 py-3 border-t border-gray-400'>
+                           <p> Déjà un compte ?  <Link to="/connexion" className='text-blue-700'>  Se connecter</Link></p>
+                        </div>
                   
                     </div>
                     
@@ -242,7 +246,8 @@ const Register = () =>
 
         </div>
 
-    </div>);
+    </div>
+    </>);
 }
 
 

@@ -20,7 +20,4 @@ export default async function RegisterUser(form:RegisterFormData)
 
     return status.status;
 
-   
-    
-
 }
