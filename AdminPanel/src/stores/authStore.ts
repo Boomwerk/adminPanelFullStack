@@ -1,9 +1,9 @@
 import { create } from "zustand"
 
 type authStore = {
-    token: string,
+    accessToken: string,
     refreshToken: string,
-    setToken: (setToken: string) => void,
+    setAccessToken: (setToken: string) => void,
     setRefreshToken: (setRefreshToken: string) => void,
     logout: () => void
 
@@ -11,9 +11,9 @@ type authStore = {
 
 
 export const useAuthStore = create<authStore>((set) => ({
-    token: "",
+    accessToken: "",
     refreshToken: "",
-    setToken: (setToken: string) => set({token: setToken}),
+    setAccessToken: (setToken: string) => set({accessToken: setToken}),
     setRefreshToken: (setRefreshToken: string) => set({refreshToken: setRefreshToken}),
-    logout: () => set({token: "", refreshToken:""})
+    logout: () => set({accessToken: "", refreshToken:""})
 }))

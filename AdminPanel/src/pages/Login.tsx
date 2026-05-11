@@ -1,6 +1,6 @@
 import logoprotect from "../assets/logoprotect.png";
 import { useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { AuthFormData } from "../types/auth";
 import Alert from "../components/Alert";
 import AuthUser from "../services/AuthUser";
@@ -10,9 +10,9 @@ import { useAuthStore } from "../stores/authStore";
 
 export default function Login(){
 
-    console.log("render rendu");
+    const navigate = useNavigate();
 
-    const {setToken, setRefreshToken} = useAuthStore();
+    const {setAccessToken} = useAuthStore();
 
 
     const [alert, setAlert] = useState({
@@ -61,20 +61,31 @@ export default function Login(){
 
            const responseApi = await AuthUser(form.email, form.password);
 
+
             if(responseApi.token)
             {
                 
 
-                setToken(responseApi.token);
-                setRefreshToken(responseApi.refreshToken);
-                // Gestion token
-                // redirection
+                setAccessToken(responseApi.token);
+
+                setLoading(false);
+
+
+
+                return navigate("/dashboard");
+                
+                
+            
                 
             }else{
+
+
                 setAlert({
                     type:"error",
                     message: "Identifiant ou mot de passe incorrect !"
                 })
+
+                setLoading(false);
             }
            
         }catch(e){
