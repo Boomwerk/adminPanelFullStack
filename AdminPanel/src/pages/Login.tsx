@@ -61,7 +61,6 @@ export default function Login(){
 
            const responseApi = await AuthUser(form.email, form.password);
 
-
             if(responseApi.token)
             {
                 
