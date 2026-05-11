@@ -1,12 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
 
 export default function Logout(){
-    const {setAccessToken, setRefreshToken} = useAuthStore();
+
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        setAccessToken("");
-        setRefreshToken("");
+
+        useAuthStore.getState().logout();
         cookieStore.delete("access_token");
+        navigate("/");
        
     };
 

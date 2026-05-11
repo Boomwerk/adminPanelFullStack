@@ -1,9 +1,15 @@
 import { Link} from "react-router-dom"
+import Logout from "./Logout";
 import { useAuthStore } from "../stores/authStore";
 
 export default function Navbar(){
 
     const {accessToken} = useAuthStore();
+
+    // const handleClickLogout = () => {
+    //     Logout();
+
+    // }
     
 
    
@@ -29,7 +35,7 @@ export default function Navbar(){
                         <p className='font-bold'><Link to='/'>Welcome User</Link></p>
                     </div>
                     <div className="navbar-end gap-4">
-                       
+                       <Logout />
                     </div>
                 </>
             )}

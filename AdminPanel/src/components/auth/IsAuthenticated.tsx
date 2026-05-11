@@ -9,6 +9,7 @@ const IsAuthenticated = ({ children }: { children: React.ReactNode }) => {
 
 
     useEffect(() => {
+        
         const isAuthenticated = !!accessToken;
 
         if(!isAuthenticated) navigate("/");
