@@ -4,6 +4,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+import IsAuthenticated from './components/auth/IsAuthenticated';
 
 function App() {
 
@@ -12,7 +13,11 @@ function App() {
     <Route path="/" element={<Home/>}/>
     <Route path="/Inscription" element={<Register />}/>
     <Route path="/connexion" element={<Login />}/>
-    <Route path="/dashboard" element={<Dashboard />}/>
+    <Route path="/dashboard" element={
+      <IsAuthenticated>
+        <Dashboard />
+      </IsAuthenticated>
+      }/>
 
    </Routes>
   )
