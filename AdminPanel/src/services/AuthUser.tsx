@@ -3,10 +3,11 @@
 export default async function AuthUser(email:string, password:string) {
 
 
-    const response = await fetch("http://127.0.0.1:8000/api/login_check", {
+    const response = await fetch("http://localhost:8000/api/login_check", {
         method:"POST",
+        credentials:"include",
         headers: {
-            "Content-Type" : "application/json" 
+            "Content-Type" : "application/json",
         },
         body: JSON.stringify({
             email:email,
