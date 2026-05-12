@@ -15,6 +15,8 @@ const IsAuthenticated = ({ children }: { children: React.ReactNode }) => {
 
         if(!isAuthenticated) navigate("/");
 
+        
+
 
 
     }, []);
