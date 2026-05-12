@@ -1,8 +1,17 @@
 import LeftNav from "../components/LeftNav";
 import Navbar from "../components/Navbar";
 
+import RefreshJWT from "../services/RefreshJWT";
+
 
 export default function Dashboard(){
+
+    const refresh = (e) => {
+        e.preventDefault();
+
+        RefreshJWT();
+
+    }
 
     
 
@@ -15,7 +24,7 @@ export default function Dashboard(){
                 <div className="flex justify-center">
 
                     <div className="w-2/5">
-
+                        <button className="btn btn-soft btn-primary" onClick={refresh}>Refresh Token</button>
 
                     </div>
                 </div>
