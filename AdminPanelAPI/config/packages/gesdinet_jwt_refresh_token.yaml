@@ -2,3 +2,12 @@ gesdinet_jwt_refresh_token:
     refresh_token_class: Gesdinet\JWTRefreshTokenBundle\Entity\RefreshToken 
     token_parameter_name: refresh_token
     single_use: true
+    cookie:
+      enabled: true
+      same_site: lax               # default value
+      path: /                      # default value
+      domain: null                 # default value
+      http_only: true              # default value
+      secure: true                 # default value
+      partitioned: false           # default value
+      remove_token_from_body: true # default value

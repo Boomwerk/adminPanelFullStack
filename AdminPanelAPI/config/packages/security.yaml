@@ -32,6 +32,8 @@ security:
             refresh_jwt:
                 check_path: /api/token/refresh
             entry_point: jwt
+            logout:
+                path: api_token_invalidate
 
             # Activate different ways to authenticate:
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -45,6 +47,8 @@ security:
         - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
         - { path: ^/api/users, roles: PUBLIC_ACCESS, methods: POST}
         - { path: ^/api, roles: PUBLIC_ACCESS }
+        - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
+        
 
 when@test:
     security:

@@ -6,12 +6,6 @@ export default function Navbar(){
 
     const {accessToken} = useAuthStore();
 
-    // const handleClickLogout = () => {
-    //     Logout();
-
-    // }
-    
-
    
     return (
         <div className='navbar bg-base-100 shadow-sm px-5'>
